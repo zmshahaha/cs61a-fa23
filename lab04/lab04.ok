@@ -5,13 +5,20 @@
         "lab04.py"
     ],
     "tests": {
+        "lab*.py": "doctest",
         "tests/*.py": "ok_test"
     },
     "default_tests": [
         "squared-virfib-wwpd",
         "paths",
         "summation",
-        "lists-wwpd"
+        "lists-wwpd",
+        "my_map",
+        "my_map_syntax_check",
+        "my_filter",
+        "my_filter_syntax_check",
+        "my_reduce",
+        "count_palindromes"
     ],
     "protocols": [
         "restore",

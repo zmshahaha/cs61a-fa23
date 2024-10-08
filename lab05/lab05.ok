@@ -10,11 +10,6 @@
     },
     "default_tests": [
         "flatten",
-        "my_map",
-        "my_map_syntax_check",
-        "my_filter",
-        "my_filter_syntax_check",
-        "my_reduce",
         "distance",
         "closer_city",
         "check_city_abstraction"

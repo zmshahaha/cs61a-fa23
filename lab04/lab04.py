@@ -144,6 +144,28 @@ def my_reduce(combiner, seq):
     return ret
 
 
+def my_map_syntax_check():
+    """Check that your two_of_three code consists of nothing but a return statement.
+
+    >>> # You aren't expected to understand the code of this test.
+    >>> import inspect, ast
+    >>> [type(x).__name__ for x in ast.parse(inspect.getsource(my_map)).body[0].body]
+    ['Expr', 'Return']
+    """
+    # You don't need to edit this function. It's just here to check your work.
+
+
+def my_filter_syntax_check():
+    """Check that your two_of_three code consists of nothing but a return statement.
+
+    >>> # You aren't expected to understand the code of this test.
+    >>> import inspect, ast
+    >>> [type(x).__name__ for x in ast.parse(inspect.getsource(my_filter)).body[0].body]
+    ['Expr', 'Return']
+    """
+    # You don't need to edit this function. It's just here to check your work.
+
+
 def count_palindromes(L):
     """The number of palindromic words in the sequence of strings
     L (ignoring case).
