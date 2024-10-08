@@ -156,3 +156,44 @@ def div_by_primes_under(n):
 
 思考将flatten变成迭代
 
+## lab06
+
+```python
+>>> a, b = lst, lst[:]
+>>> a is lst
+True
+>>> b == lst
+True
+>>> b is lst
+False
+
+>>> lst=[1, 2, 3, 4, 5]
+>>> lst.extend([lst.append(9), lst.append(10)])
+>>> lst
+[1, 2, 3, 4, 5, 9, 10, None, None]
+
+>>> r = range(6)
+>>> r_iter = iter(r)
+>>> next(r_iter)
+0
+>>> [x + 1 for x in r_iter]
+[2, 3, 4, 5, 6]
+>>> next(r_iter)
+StopIteration
+
+>>> map_iter = map(lambda x : x + 10, range(5))
+>>> next(map_iter)
+10
+>>> next(map_iter)
+11
+>>> list(map_iter)
+[12, 13, 14]
+
+>>> [x + y for x, y in zip([1, 2, 3], [4, 5, 6])]
+[5, 7, 9]
+>>> for e in zip([10, 9, 8], range(3)):
+...   print(tuple(map(lambda x: x + 2, e)))
+(12, 2)
+(11, 3)
+(10, 4)
+```

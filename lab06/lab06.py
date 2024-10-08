@@ -30,6 +30,13 @@ def insert_items(lst, entry, elem):
     True
     """
     "*** YOUR CODE HERE ***"
+    index = 0
+    while index < len(lst):
+        if lst[index] == entry:
+            lst.insert(index + 1, elem)
+            index += 1
+        index += 1
+    return lst
 
 
 def count_occurrences(t, n, x):
@@ -53,6 +60,11 @@ def count_occurrences(t, n, x):
     2
     """
     "*** YOUR CODE HERE ***"
+    count = 0
+    for _ in range(n):
+        if next(t) == x:
+            count += 1
+    return count
 
 
 def repeated(t, k):
@@ -78,6 +90,17 @@ def repeated(t, k):
     """
     assert k > 1
     "*** YOUR CODE HERE ***"
+    count = 0
+    last_item = None
+    while True:
+        item = next(t)
+        if item == last_item:
+            count += 1
+        else:
+            last_item = item
+            count = 1
+        if count == k:
+            return item
 
 
 def partial_reverse(lst, start):
@@ -93,7 +116,10 @@ def partial_reverse(lst, start):
     [1, 2, 7, 6, 5, 3, 4]
     """
     "*** YOUR CODE HERE ***"
-
+    end = len(s) - 1
+    while start < end:
+        s[start], s[end] = s[end], s[start]
+        start, end = start + 1, end - 1
 
 def index_largest(seq):
     """Return the index of the largest element in the sequence.
@@ -105,6 +131,15 @@ def index_largest(seq):
     """
     assert len(seq) > 0
     "*** YOUR CODE HERE ***"
+    largest_num = seq[0]
+    largest_index = 0
+    seq_len = len(seq)
+
+    for i in range(seq_len):
+        if seq[i] > largest_num:
+            largest_num = seq[i]
+            largest_index = i
+    return largest_index
 
 
 def pizza_sort(lst):
@@ -116,11 +151,11 @@ def pizza_sort(lst):
     >>> a
     [9, 8, 7, 5, 3, 2, 1]
     """
-    pizza_sort_helper(________, ________)
+    pizza_sort_helper(lst, 0)
 
 
 def pizza_sort_helper(lst, start):
-    if _______________:
-        partial_reverse(________, ________)
-        partial_reverse(________, ________)
-        _______________(________, ________)
+    if start < len(lst) - 1:
+        partial_reverse(lst, start + index_largest(lst[start:]))
+        partial_reverse(lst, start)
+        pizza_sort_helper(lst, start + 1)
