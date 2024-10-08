@@ -20,6 +20,9 @@ def summation(n, term):
     """
     assert n >= 1
     "*** YOUR CODE HERE ***"
+    if n == 1:
+        return term(1)
+    return term(n) + summation(n - 1, term)
 
 
 def paths(m, n):
@@ -36,6 +39,9 @@ def paths(m, n):
     1
     """
     "*** YOUR CODE HERE ***"
+    if m == 1 or n == 1:
+        return 1
+    return paths(m - 1, n) + paths(m, n - 1)
 
 
 def pascal(row, column):
@@ -51,7 +57,11 @@ def pascal(row, column):
     6
     """
     "*** YOUR CODE HERE ***"
-
+    if column < 0 or column > row:
+        return 0
+    if column == 0 or column == row:
+        return 1
+    return pascal(row - 1, column - 1) + pascal(row - 1, column)
 
 def double_eights(n):
     """ Returns whether or not n has two digits in row that
@@ -75,3 +85,70 @@ def double_eights(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    if (n % 10 == 8) and ((n // 10) % 10 == 8):
+        return True
+    if n < 100:
+        return False
+    return double_eights(n//10)
+
+
+def my_map(fn, seq):
+    """Applies fn onto each element in seq and returns a list.
+    >>> my_map(lambda x: x*x, [1, 2, 3])
+    [1, 4, 9]
+    >>> my_map(lambda x: abs(x), [1, -1, 5, 3, 0])
+    [1, 1, 5, 3, 0]
+    >>> my_map(lambda x: print(x), ['cs61a', 'summer', '2023'])
+    cs61a
+    summer
+    2023
+    [None, None, None]
+    """
+    return [fn(i) for i in seq]
+
+def my_filter(pred, seq):
+    """Keeps elements in seq only if they satisfy pred.
+    >>> my_filter(lambda x: x % 2 == 0, [1, 2, 3, 4])  # new list has only even-valued elements
+    [2, 4]
+    >>> my_filter(lambda x: (x + 5) % 3 == 0, [1, 2, 3, 4, 5])
+    [1, 4]
+    >>> my_filter(lambda x: print(x), [1, 2, 3, 4, 5])
+    1
+    2
+    3
+    4
+    5
+    []
+    >>> my_filter(lambda x: max(5, x) == 5, [1, 2, 3, 4, 5, 6, 7])
+    [1, 2, 3, 4, 5]
+    """
+    return [i for i in seq if pred(i)]
+
+
+def my_reduce(combiner, seq):
+    """Combines elements in seq using combiner.
+    seq will have at least one element.
+    >>> my_reduce(lambda x, y: x + y, [1, 2, 3, 4])  # 1 + 2 + 3 + 4
+    10
+    >>> my_reduce(lambda x, y: x * y, [1, 2, 3, 4])  # 1 * 2 * 3 * 4
+    24
+    >>> my_reduce(lambda x, y: x * y, [4])
+    4
+    >>> my_reduce(lambda x, y: x + 2 * y, [1, 2, 3]) # (1 + 2 * 2) + 2 * 3
+    11
+    """
+    "*** YOUR CODE HERE ***"
+    ret = seq[0]
+    for i in seq[1:]:
+        ret = combiner(ret, i)
+    return ret
+
+
+def count_palindromes(L):
+    """The number of palindromic words in the sequence of strings
+    L (ignoring case).
+
+    >>> count_palindromes(("Acme", "Madam", "Pivot", "Pip"))
+    2
+    """
+    return len([i for i in L if i.lower() == i[::-1].lower()])
