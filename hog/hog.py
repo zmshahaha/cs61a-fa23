@@ -23,6 +23,17 @@ def roll_dice(num_rolls, dice=six_sided):
     assert num_rolls > 0, 'Must roll at least once.'
     # BEGIN PROBLEM 1
     "*** YOUR CODE HERE ***"
+    ret = 0
+    sow_sad = False
+    for i in range(num_rolls):
+        cur_roll = dice()
+        if cur_roll == 1:
+            sow_sad = True
+        ret += cur_roll
+    if sow_sad:
+        return 1
+    else:
+        return ret
     # END PROBLEM 1
 
 
@@ -34,6 +45,10 @@ def tail_points(opponent_score):
     """
     # BEGIN PROBLEM 2
     "*** YOUR CODE HERE ***"
+    ones = opponent_score%10
+    opponent_score = opponent_score // 10
+    tens = opponent_score%10
+    return 2*abs(tens-ones)+1
     # END PROBLEM 2
 
 
@@ -51,6 +66,10 @@ def take_turn(num_rolls, opponent_score, dice=six_sided):
     assert num_rolls <= 10, 'Cannot roll more than 10 dice.'
     # BEGIN PROBLEM 3
     "*** YOUR CODE HERE ***"
+    if num_rolls == 0:
+        return tail_points(opponent_score)
+    else:
+        return roll_dice(num_rolls, dice)
     # END PROBLEM 3
 
 
@@ -74,6 +93,11 @@ def square_update(num_rolls, player_score, opponent_score, dice=six_sided):
 
 # BEGIN PROBLEM 4
 "*** YOUR CODE HERE ***"
+def perfect_square(score):
+    return score ** 0.5 % 1 == 0
+
+def next_perfect_square(score):
+    return int((score ** 0.5 + 1)**2)
 # END PROBLEM 4
 
 
@@ -112,7 +136,12 @@ def play(strategy0, strategy1, update,
     """
     who = 0  # Who is about to take a turn, 0 (first) or 1 (second)
     # BEGIN PROBLEM 5
-    "*** YOUR CODE HERE ***"
+    while score0 < goal and score1 < goal:
+        if who == 0:
+            score0 = update(strategy0(score0, score1), score0, score1, dice)
+        else:
+            score1 = update(strategy1(score1, score0), score1, score0, dice)
+        who = 1 - who
     # END PROBLEM 5
     return score0, score1
 
@@ -138,6 +167,7 @@ def always_roll(n):
     assert n >= 0 and n <= 10
     # BEGIN PROBLEM 6
     "*** YOUR CODE HERE ***"
+    return lambda score, opponent_score : n
     # END PROBLEM 6
 
 
@@ -168,6 +198,12 @@ def is_always_roll(strategy, goal=GOAL):
     """
     # BEGIN PROBLEM 7
     "*** YOUR CODE HERE ***"
+    start = strategy(0,0)
+    for m in range(goal):
+        for n in range(goal):
+            if strategy(m,n)!=start:
+                return False
+    return True
     # END PROBLEM 7
 
 
@@ -184,6 +220,12 @@ def make_averaged(original_function, total_samples=1000):
     """
     # BEGIN PROBLEM 8
     "*** YOUR CODE HERE ***"
+    def func(*args):
+        sum_result = 0;
+        for i in range(0, total_samples):
+            sum_result += original_function(*args)
+        return sum_result / total_samples
+    return func
     # END PROBLEM 8
 
 
@@ -198,6 +240,17 @@ def max_scoring_num_rolls(dice=six_sided, total_samples=1000):
     """
     # BEGIN PROBLEM 9
     "*** YOUR CODE HERE ***"
+    test_func = make_averaged(roll_dice, total_samples)
+    max_score = 0.0
+    max_dice = 0
+
+    for i in range(1, 11):
+        score = test_func(i, dice)
+        if score > max_score:
+            max_score = score
+            max_dice = i
+
+    return max_dice
     # END PROBLEM 9
 
 
@@ -241,6 +294,8 @@ def tail_strategy(score, opponent_score, threshold=12, num_rolls=6):
     points, and returns NUM_ROLLS otherwise. Ignore score and Square Swine.
     """
     # BEGIN PROBLEM 10
+    if tail_points(opponent_score) >= threshold:
+        return 0
     return num_rolls  # Remove this line once implemented.
     # END PROBLEM 10
 
@@ -248,6 +303,8 @@ def tail_strategy(score, opponent_score, threshold=12, num_rolls=6):
 def square_strategy(score, opponent_score, threshold=12, num_rolls=6):
     """This strategy returns 0 dice when your score would increase by at least threshold."""
     # BEGIN PROBLEM 11
+    if square_update(0, score, opponent_score) - score >= threshold:
+        return 0
     return num_rolls  # Remove this line once implemented.
     # END PROBLEM 11
 
@@ -258,7 +315,19 @@ def final_strategy(score, opponent_score):
     *** YOUR DESCRIPTION HERE ***
     """
     # BEGIN PROBLEM 12
-    return 6  # Remove this line once implemented.
+    averaged_dice = make_averaged(roll_dice, 100)
+    if square_update(0, score, opponent_score) - score >= averaged_dice(6):
+        return 0
+    max_score = 0.0
+    max_dice = 0
+    for i in range(1, 3):
+        avg_score = averaged_dice(i)
+        if 100 - score < avg_score:
+            return i
+        elif avg_score > max_score:
+            max_score = avg_score
+            max_dice = i
+    return max_dice
     # END PROBLEM 12
 
 
