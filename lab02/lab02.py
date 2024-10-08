@@ -32,6 +32,12 @@ def composite_identity(f, g):
     False
     """
     "*** YOUR CODE HERE ***"
+    def func(x):
+        if composer(f, g)(x) == composer(g, f)(x):
+            return True
+        else:
+            return False
+    return func
 
 
 def count_cond(condition):
@@ -62,6 +68,13 @@ def count_cond(condition):
     8
     """
     "*** YOUR CODE HERE ***"
+    def func(n):
+        count = 0
+        for i in range(1, n + 1):
+            if condition(n, i) == True:
+                count += 1
+        return count
+    return func
 
 
 def multiple(a, b):
@@ -73,7 +86,11 @@ def multiple(a, b):
     42
     """
     "*** YOUR CODE HERE ***"
-
+    gcd = 1
+    for i in range(2, a + 1):
+        if (a % i == 0) and (b % i == 0):
+            gcd = i
+    return a * b // gcd
 
 def cycle(f1, f2, f3):
     """Returns a function that is itself a higher-order function.
@@ -102,3 +119,11 @@ def cycle(f1, f2, f3):
     19
     """
     "*** YOUR CODE HERE ***"
+    fn = [f1, f2, f3]
+    def func(x):
+        def func2(y):
+            for i in range(x):
+                y = fn[i%3](y)
+            return y
+        return func2
+    return func
