@@ -151,3 +151,8 @@ def div_by_primes_under(n):
 这道题核心思想是在内存中递归创建**多个checker_func实例**，每个checker_func是要判断与一个质数的相除。
 
 上面关键在于有时候实例并没有完全创建出来。可能还需要进一步思考
+
+## lab05
+
+思考将flatten变成迭代
+
