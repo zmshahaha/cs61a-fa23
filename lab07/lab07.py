@@ -7,7 +7,10 @@ def amplify(f, x):
     [14, 6, 2]
     """
     "*** YOUR CODE HERE ***"
-
+    ret = x
+    while ret:
+        yield ret
+        ret = f(ret)
 
 class Person:
     """Person class.
@@ -32,20 +35,24 @@ class Person:
     def __init__(self, name):
         self.name = name
         "*** YOUR CODE HERE ***"
+        self.repeat_str = "I squirreled it away before it could catch on fire."
 
     def say(self, stuff):
         "*** YOUR CODE HERE ***"
+        self.repeat_str = stuff
         return stuff
 
     def ask(self, stuff):
-        return self.say("Would you please " + stuff)
+        self.repeat_str = self.say("Would you please " + stuff)
+        return self.repeat_str
 
     def greet(self):
-        return self.say("Hello, my name is " + self.name)
+        self.repeat_str = self.say("Hello, my name is " + self.name)
+        return self.repeat_str
 
     def repeat(self):
         "*** YOUR CODE HERE ***"
-
+        return self.repeat_str
 
 class SmartFridge:
     """"
@@ -71,10 +78,19 @@ class SmartFridge:
 
     def add_item(self, item, quantity):
         "*** YOUR CODE HERE ***"
-
+        if self.items.get(item) == None:
+            self.items[item] = quantity
+        else:
+            self.items[item] += quantity
+        return f'I now have {self.items[item]} {item}'
     def use_item(self, item, quantity):
         "*** YOUR CODE HERE ***"
-
+        if (self.items.get(item) == None) or (self.items.get(item) <= quantity):
+            self.items[item] = 0
+            return f'Oh no, we need more {item}!'
+        else:
+            self.items[item] -= quantity
+            return f'I have {self.items[item]} {item} left'
 
 class CucumberGame:
     """Play a round and return all winners so far. Cards is a list of pairs.
@@ -117,17 +133,17 @@ class Round:
         self.next_player = starter
         self.highest = -1
         self.winner = None
+        self.control = None
 
     def play(self, who, card):
         assert not self.is_complete(), f'The round is over, player {who}'
         assert who == self.next_player, f'It is not your turn, player {who}'
-        self.next_player = ______________________________________
+        self.next_player = (who + 1) % self.players
         if card >= self.highest:
-            ______________________________________
-            ______________________________________
-        if ______________________________________:
-            ______________________________________
+            self.highest, self.control = card, who
+        if self.is_complete():
+            self.winner = self.control
 
     def is_complete(self):
         """ Checks if a game could end. """
-        return ______________________________________
+        return self.next_player == self.starter and self.highest > -1
