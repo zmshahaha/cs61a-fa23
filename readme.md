@@ -197,3 +197,19 @@ StopIteration
 (11, 3)
 (10, 4)
 ```
+
+两数交换可以用`a, b = b, a`
+
+## cats
+
+autocorrect函数解法使用了min的高级特性
+
+**提前终止递归的方法**
+
+第六题第七题巧妙
+
+第六题的feline_fixes函数要注意，定义了def feline_fixes_helper(cur_diff, typed, source, limit)函数，cur_diff是指在递归到这里前已经有多少不同，返回值是后面有多少不同。
+
+第十题巧妙使用列表推导以及min
+
+获取某个条件下的一个数列最小值可以像这个题目的min，不用再写循环
