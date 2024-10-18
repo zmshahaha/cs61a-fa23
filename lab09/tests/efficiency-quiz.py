@@ -5,7 +5,7 @@ test = {
     {
       'cases': [
         {
-          'answer': '283f29564937de236873fd9ad423ca2b',
+          'answer': 'Linear',
           'choices': [
             'Constant',
             'Logarithmic',
@@ -15,7 +15,7 @@ test = {
             'None of these'
           ],
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'multiline': False,
           'question': r"""
           What is the worst case (i.e. when n is prime) order of growth of is_prime in terms of n?
@@ -28,7 +28,7 @@ test = {
           """
         },
         {
-          'answer': 'afd65f5e997c8d46ee79886de3120238',
+          'answer': 'Quadratic',
           'choices': [
             'Constant',
             'Logarithmic',
@@ -38,7 +38,7 @@ test = {
             'None of these'
           ],
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'multiline': False,
           'question': r"""
           What is the order of growth of bar in terms of n?
@@ -59,7 +59,7 @@ test = {
           """
         },
         {
-          'answer': '6cd9100091b88817235caa26caa0aa81',
+          'answer': 'Logarithmic',
           'choices': [
             'Constant',
             'Logarithmic',
@@ -69,7 +69,7 @@ test = {
             'None of these'
           ],
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'multiline': False,
           'question': r"""
           What is the order of growth of foo in terms of n, where n is the length

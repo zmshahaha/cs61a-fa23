@@ -224,3 +224,10 @@ autocorrect函数解法使用了min的高级特性
 基类可以强转为继承类
 
 直接使用继承类的函数调用基类变量就行
+
+
+## lab09
+
+tree-wwpd中t.branches[0]输出不是<__main__.Tree object at 0x713ad11a4850>，而是Tree(2),因为定义了__str__等
+
+add_trees解法巧妙
