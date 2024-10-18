@@ -84,54 +84,28 @@ def is_bst(t):
     """
     "*** YOUR CODE HERE ***"
     def bst_min(t):
-        subtrees = len(t.branches)
-        if subtrees == 0:
+        """Returns the min of t, if t has the structure of a valid BST."""
+        if t.is_leaf():
             return t.label
-        if subtrees == 1:
-            if t.branches[0].label <= t.label:
-                return bst_min(t.branches[0])
-            else:
-                return t.label
-        if subtrees == 2:
-            if (t.branches[0].label > t.label) or (t.branches[1].label < t.label):
-                return None
-            return bst_min(t.branches[0])
-        return None
+        return min(t.label, bst_min(t.branches[0]))
 
     def bst_max(t):
-        subtrees = len(t.branches)
-        if subtrees == 0:
+        """Returns the max of t, if t has the structure of a valid BST."""
+        if t.is_leaf():
             return t.label
-        if subtrees == 1:
-            if t.branches[0].label >= t.label:
-                return bst_max(t.branches[0])
-            else:
-                return t.label
-        if subtrees == 2:
-            if (t.branches[0].label > t.label) or (t.branches[1].label < t.label):
-                return None
-            return bst_max(t.branches[1])
-        return None
-    subtrees = len(t.branches)
-    if subtrees == 0:
+        return max(t.label, bst_max(t.branches[-1]))
+
+    if t.is_leaf():
         return True
-    if subtrees == 1:
-        if is_bst(t.branches[0]) == False:
-            return False
-        subtree_max = bst_max(t.branches[0])
-        subtree_min = bst_min(t.branches[0])
-        if (subtree_max == None) or (subtree_min == None):
-            return False
-        if (t.label < subtree_max) and (t.label > subtree_min):
-            return False
-        return True
-    if subtrees == 2:
-        left_max = bst_max(t.branches[0])
-        right_min = bst_min(t.branches[1])
-        if (left_max == None) or (right_min == None):
-            return False
-        return is_bst(t.branches[0]) and is_bst(t.branches[1]) and (t.label >= left_max) and (t.label <= right_min)
-    return False
+    if len(t.branches) == 1:
+        c = t.branches[0]
+        return is_bst(c) and (bst_max(c) <= t.label or bst_min(c) > t.label)
+    elif len(t.branches) == 2:
+        c1, c2 = t.branches
+        valid_branches = is_bst(c1) and is_bst(c2)
+        return valid_branches and bst_max(c1) <= t.label and bst_min(c2) > t.label
+    else:
+        return False
 
 
 def add_trees(t1, t2):

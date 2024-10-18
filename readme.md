@@ -231,3 +231,9 @@ autocorrect函数解法使用了min的高级特性
 tree-wwpd中t.branches[0]输出不是<__main__.Tree object at 0x713ad11a4850>，而是Tree(2),因为定义了__str__等
 
 add_trees解法巧妙
+
+递归基选树为空not t1(not t1 比t1 == None更简洁)
+
+is_bst之前答案中的bst_min和bst_max做了不该做的事情，就是还去判断是否是二叉树，导致代码冗余以及效率低
+
+bst_min和bst_max应该是假设树是二叉的前提下去看最大最小
