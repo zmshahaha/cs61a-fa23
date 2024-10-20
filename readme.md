@@ -237,3 +237,47 @@ add_trees解法巧妙
 is_bst之前答案中的bst_min和bst_max做了不该做的事情，就是还去判断是否是二叉树，导致代码冗余以及效率低
 
 bst_min和bst_max应该是假设树是二叉的前提下去看最大最小
+
+## lab10
+
+[each_list.insert(0, item) for each_list in nested_list]是不可以的，因为insert的返回值是None而不是添加后的结果
+
+**注意non_decrease_subseqs中subseq_helper的语义:返回的是s的所有非递减子序列，其中所有元素均不小于prev，而不是返回s加上prev的所有非递减子序列**
+
+num_trees思路:
+
+想像树去掉叶节点，只剩下骨干
+
+问题变成求骨干组成的可能性
+
+对于n结点的树，有n-2个骨干
+
+本题中a对应如下情况
+
+```
+    /或\
+(剩余n-1个节点，即n-3骨干)
+```
+b对应如下情况
+```
+/\
+(剩余n-2个节点在左右两端分配)
+```
+
+partition_gen解答
+```python
+    # 和是j，里面最大值小于等于k的分块
+    def yield_helper(j, k):
+        if j == 0:
+            yield []
+        elif k > 0 and j > 0:
+            # 最大值等于k的部分
+            for small_part in yield_helper(j-k, k):
+                # 因为要改变生成的元素，所以不能用yield from
+                yield [k] + small_part
+            # 最大值小于k的部分
+            yield from yield_helper(j, k - 1)
+    yield from yield_helper(n, n)
+```
+
+reverse_helper中的new_labs = [child.label for child in t.branches][::-1]，简洁的反转了数组

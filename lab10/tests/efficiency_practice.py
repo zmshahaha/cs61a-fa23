@@ -5,7 +5,7 @@ test = {
     {
       'cases': [
         {
-          'answer': '8e8c7a23b9c775ff5a3cc44717606c74',
+          'answer': 'Exponential',
           'choices': [
             'Constant',
             'Logarithmic',
@@ -15,12 +15,12 @@ test = {
             'None of these'
           ],
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'multiline': False,
           'question': 'The count_partitions function runs in ____ time in the length of its input.'
         },
         {
-          'answer': '38e7263fbec047dafe64d91f71f10ed4',
+          'answer': 'Linear',
           'choices': [
             'Constant',
             'Logarithmic',
@@ -30,12 +30,12 @@ test = {
             'None of these'
           ],
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'multiline': False,
           'question': 'The is_palindrome function runs in ____ time in the length of its input.'
         },
         {
-          'answer': '16fa3c5d90de695437f338aa27b1291d',
+          'answer': 'Logarithmic',
           'choices': [
             'Constant',
             'Logarithmic',
@@ -45,7 +45,7 @@ test = {
             'None of these'
           ],
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'multiline': False,
           'question': 'The binary_search function runs in ____ time in the length of its input.'
         }

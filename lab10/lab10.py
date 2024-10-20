@@ -8,6 +8,9 @@ def insert_into_all(item, nested_list):
     [[0], [0, 1, 2], [0, 3]]
     """
     "*** YOUR CODE HERE ***"
+    for each_list in nested_list:
+        each_list.insert(0, item)
+    return nested_list
 
 
 def subseqs(s):
@@ -20,11 +23,11 @@ def subseqs(s):
     >>> subseqs([])
     [[]]
     """
-    if ________________:
-        ________________
+    if not s:
+        return [s]
     else:
-        ________________
-        ________________
+        tmp = subseqs(s[1:])
+        return tmp + insert_into_all(s[0], tmp)
 
 
 def non_decrease_subseqs(s):
@@ -43,14 +46,14 @@ def non_decrease_subseqs(s):
     """
     def subseq_helper(s, prev):
         if not s:
-            return ____________________
+            return [[]]
         elif s[0] < prev:
-            return ____________________
+            return subseq_helper(s[1:], prev)
         else:
-            a = ______________________
-            b = ______________________
-            return insert_into_all(________, ______________) + ________________
-    return subseq_helper(____, ____)
+            a = subseq_helper(s[1:], s[0])  # include s[0]
+            b = subseq_helper(s[1:], prev)  # exclude s[0]
+            return insert_into_all(s[0], a) + b
+    return subseq_helper(s, 0)
 
 
 def num_trees(n):
@@ -74,6 +77,15 @@ def num_trees(n):
 
     """
     "*** YOUR CODE HERE ***"
+    if n == 1:
+        return 1
+    if n == 2:
+        return 1
+    a = num_trees(n - 1) * 2
+    b = 0
+    for i in range(2, n - 1):
+        b += num_trees(i) * num_trees(n - i)
+    return a + b
 
 
 def partition_gen(n):
@@ -88,11 +100,11 @@ def partition_gen(n):
     """
     def yield_helper(j, k):
         if j == 0:
-            ____________________________________________
-        elif ____________________________________________:
-            for small_part in ________________________________:
-                yield ____________________________________________
-            yield ________________________________________
+            yield []
+        elif k > 0 and j > 0:
+            for small_part in yield_helper(j - k, k):
+                yield [k] + small_part
+            yield from yield_helper(j, k - 1)
     yield from yield_helper(n, n)
 
 
@@ -133,9 +145,9 @@ def trade(first, second):
     """
     m, n = 1, 1
 
-    equal_prefix = lambda: ______________________
-    while _______________________________:
-        if __________________:
+    equal_prefix = lambda: sum(first[:m]) == sum(second[:n])
+    while m <= len(first) and n <= len(second) and not equal_prefix():
+        if sum(first[:m]) < sum(second[:n]):
             m += 1
         else:
             n += 1
@@ -173,11 +185,11 @@ def shuffle(cards):
     ['AH', 'AD', 'AS', 'AC', '2H', '2D', '2S', '2C', '3H', '3D', '3S', '3C']
     """
     assert len(cards) % 2 == 0, 'len(cards) must be even'
-    half = _______________
+    half = len(cards) // 2
     shuffled = []
-    for i in _____________:
-        _________________
-        _________________
+    for i in range(half):
+        shuffled.append(cards[i])
+        shuffled.append(cards[half+i])
     return shuffled
 
 
@@ -202,7 +214,13 @@ def insert(link, value, index):
     IndexError: Out of bounds!
     """
     "*** YOUR CODE HERE ***"
-
+    if index == 0:
+        link.rest = Link(link.first, link.rest)
+        link.first = value
+    elif link.rest is Link.empty:
+        raise IndexError("Out of bounds!")
+    else:
+        insert(link.rest, value, index - 1)
 
 def deep_len(lnk):
     """ Returns the deep length of a possibly deep linked list.
@@ -218,12 +236,12 @@ def deep_len(lnk):
     >>> deep_len(levels)
     5
     """
-    if ______________:
+    if lnk is Link.empty:
         return 0
-    elif ______________:
+    elif not isinstance(lnk, Link):
         return 1
     else:
-        return _________________________
+        return deep_len(lnk.first) + deep_len(lnk.rest)
 
 
 def make_to_string(front, mid, back, empty_repr):
@@ -242,10 +260,10 @@ def make_to_string(front, mid, back, empty_repr):
     '()'
     """
     def printer(lnk):
-        if ______________:
-            return _________________________
+        if lnk is Link.empty:
+            return empty_repr
         else:
-            return _________________________
+            return front + str(lnk.first) + mid + printer(lnk.rest) + back
     return printer
 
 
@@ -263,6 +281,16 @@ def reverse_other(t):
     Tree(1, [Tree(8, [Tree(3, [Tree(5), Tree(4)]), Tree(6, [Tree(7)])]), Tree(2)])
     """
     "*** YOUR CODE HERE ***"
+    def reverse_helper(t, need_reverse):
+        if t.is_leaf():
+            return
+        new_labs = [child.label for child in t.branches][::-1]
+        for i in range(len(t.branches)):
+            child = t.branches[i]
+            reverse_helper(child, not need_reverse)
+            if need_reverse:
+                child.label = new_labs[i]
+    return reverse_helper(t, True)
 
 
 class Link:
