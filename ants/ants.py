@@ -53,6 +53,7 @@ class Insect:
     next_id = 0  # Every insect gets a unique id number
     damage = 0
     # ADD CLASS ATTRIBUTES HERE
+    is_waterproof = False
 
     def __init__(self, health, place=None):
         """Create an Insect with a health amount and a starting PLACE."""
@@ -104,6 +105,7 @@ class Ant(Insect):
 
     def __init__(self, health=1):
         super().__init__(health)
+        self.doubled = False
 
     def can_contain(self, other):
         return False
@@ -142,6 +144,8 @@ class Ant(Insect):
         """Double this ants's damage, if it has not already been doubled."""
         # BEGIN Problem 12
         "*** YOUR CODE HERE ***"
+        self.damage = 2*self.damage
+        self.doubled = True
         # END Problem 12
 
 
@@ -396,10 +400,18 @@ class Water(Place):
         its health to 0."""
         # BEGIN Problem 10
         "*** YOUR CODE HERE ***"
+        super().add_insect(insect)
+        if not insect.is_waterproof:
+            insect.reduce_health(insect.health)            
         # END Problem 10
 
 # BEGIN Problem 11
 # The ScubaThrower class
+class ScubaThrower(ThrowerAnt):
+    name = 'Scuba'
+    food_cost = 6
+    implemented = True
+    is_waterproof = True
 # END Problem 11
 
 
@@ -410,7 +422,7 @@ class QueenAnt(ThrowerAnt):
     food_cost = 7
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 12
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
     # END Problem 12
 
     def action(self, gamestate):
@@ -419,6 +431,15 @@ class QueenAnt(ThrowerAnt):
         """
         # BEGIN Problem 12
         "*** YOUR CODE HERE ***"
+        super().action(gamestate)
+        place_behind = self.place.exit
+        while place_behind:
+            if place_behind.ant:
+                if not place_behind.ant.doubled:
+                    place_behind.ant.double()
+                if place_behind.ant.is_container and place_behind.ant.ant_contained and not place_behind.ant.ant_contained.doubled:
+                    place_behind.ant.ant_contained.double()
+            place_behind = place_behind.exit
         # END Problem 12
 
     def reduce_health(self, amount):
@@ -427,6 +448,9 @@ class QueenAnt(ThrowerAnt):
         """
         # BEGIN Problem 12
         "*** YOUR CODE HERE ***"
+        super().reduce_health(amount)
+        if self.health <= 0:
+            ants_lose()
         # END Problem 12
 
 
