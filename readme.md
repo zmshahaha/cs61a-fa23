@@ -285,3 +285,9 @@ reverse_helper中的new_labs = [child.label for child in t.branches][::-1]，简
 ## hw04
 
 has_path中用了any语法
+
+## hw05
+
+func是一个yield语句的函数，a=func()，此时a是object。
+
+如果func又有return又有yield？？
