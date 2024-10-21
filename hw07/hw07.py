@@ -17,6 +17,11 @@ def store_digits(n):
     >>> link1 = Link(3, Link(Link(4), Link(5, Link(6))))
     """
     "*** YOUR CODE HERE ***"
+    result = Link.empty
+    while n > 0:
+        n, last = n // 10, n % 10
+        result = Link(last, result)
+    return result
 
 
 def deep_map_mut(func, lnk):
@@ -37,6 +42,13 @@ def deep_map_mut(func, lnk):
     <9 <16> 25 36>
     """
     "*** YOUR CODE HERE ***"
+    if lnk is Link.empty:
+        return
+    elif isinstance(lnk.first, Link):
+        deep_map_mut(func, lnk.first)
+    else:
+        lnk.first = func(lnk.first)
+    deep_map_mut(func, lnk.rest)
 
 
 def two_list(vals, counts):
@@ -58,6 +70,13 @@ def two_list(vals, counts):
     Link(1, Link(1, Link(3, Link(3, Link(2)))))
     """
     "*** YOUR CODE HERE ***"
+    result = Link(None)
+    p = result
+    for i in range(len(vals)):
+        for j in range(counts[i]):
+            p.rest = Link(vals[i])
+            p = p.rest
+    return result.rest
 
 
 def add_d_leaves(t, v):
@@ -119,6 +138,12 @@ def add_d_leaves(t, v):
         10
     """
     "*** YOUR CODE HERE ***"
+    def helper(t, d):
+        for b in t.branches:
+            helper(b, d + 1)
+        for i in range(d):
+            t.branches.append(Tree(v))
+    helper(t, 0)
 
 
 class Link:

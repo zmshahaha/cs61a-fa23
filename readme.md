@@ -291,3 +291,11 @@ has_path中用了any语法
 func是一个yield语句的函数，a=func()，此时a是object。
 
 如果func又有return又有yield？？
+
+## hw07
+
+在创建Link**对象**时多加个提醒
+
+Link.__init__, hold = lambda *args: print("Do not create any new Links."), Link.__init__
+
+注意Link构造函数用法
