@@ -281,3 +281,7 @@ partition_gen解答
 ```
 
 reverse_helper中的new_labs = [child.label for child in t.branches][::-1]，简洁的反转了数组
+
+## hw04
+
+has_path中用了any语法

@@ -65,12 +65,14 @@ def planet(mass):
     """Construct a planet of some mass."""
     assert mass > 0
     "*** YOUR CODE HERE ***"
+    return ['planet', mass]
 
 
 def mass(w):
     """Select the mass of a planet."""
     assert is_planet(w), 'must call mass on a planet'
     "*** YOUR CODE HERE ***"
+    return w[1]
 
 
 def is_planet(w):
@@ -127,6 +129,9 @@ def balanced(m):
     True
     """
     "*** YOUR CODE HERE ***"
+    if(is_mobile(m)):
+        return total_weight(end(left(m))) * length(left(m)) == total_weight(end(right(m))) * length(right(m)) and balanced(end(left(m))) and balanced(end(right(m)))
+    return True
 
 
 def totals_tree(m):
@@ -159,6 +164,10 @@ def totals_tree(m):
     True
     """
     "*** YOUR CODE HERE ***"
+    if(is_mobile(m)):
+        return tree(total_weight(m), [totals_tree(end(left(m))), totals_tree(end(right(m)))])
+    elif(is_planet(m)):
+        return tree(total_weight(m))
 
 
 def replace_loki_at_leaf(t, lokis_replacement):
@@ -191,6 +200,15 @@ def replace_loki_at_leaf(t, lokis_replacement):
     True
     """
     "*** YOUR CODE HERE ***"
+    if(is_leaf(t) and label(t) == 'loki'):
+        return tree(lokis_replacement)
+    elif(is_leaf(t)):
+        return t
+    else:
+        new_branch = []
+        for branch in branches(t):
+            new_branch.append(replace_loki_at_leaf(branch, lokis_replacement))
+        return tree(label(t), new_branch)
 
 
 def has_path(t, word):
@@ -225,6 +243,11 @@ def has_path(t, word):
     """
     assert len(word) > 0, 'no path for empty word.'
     "*** YOUR CODE HERE ***"
+    if word[0] != label(t):
+        return False
+    elif len(word) == 1:
+        return True
+    return any([has_path(b, word[1:]) for b in branches(t)])
 
 
 def str_interval(x):
@@ -249,11 +272,13 @@ def interval(a, b):
 def lower_bound(x):
     """Return the lower bound of interval x."""
     "*** YOUR CODE HERE ***"
+    return x[0]
 
 
 def upper_bound(x):
     """Return the upper bound of interval x."""
     "*** YOUR CODE HERE ***"
+    return x[1]
 
 
 def str_interval(x):
@@ -283,7 +308,9 @@ def sub_interval(x, y):
     """Return the interval that contains the difference between any value in x
     and any value in y."""
     "*** YOUR CODE HERE ***"
-
+    p1 = lower_bound(x) - upper_bound(y)
+    p2 = upper_bound(x) - lower_bound(y)
+    return interval(p1, p2)
 
 def div_interval(x, y):
     """Return the interval that contains the quotient of any value in x divided by
